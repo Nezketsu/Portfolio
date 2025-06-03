@@ -1,0 +1,79 @@
+/* Marc Font */
+@font-face {
+  font-family: 'Marc';
+  src: url('/fonts/marc/Marc-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Marc';
+  src: url('/fonts/marc/Marc-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Marc';
+  src: url('/fonts/marc/Marc-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Marc';
+  src: url('/fonts/marc/Marc-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Marc';
+  src: url('/fonts/marc/Marc-BoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Marc';
+  src: url('/fonts/marc/Marc-LightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Frick Font */
+@font-face {
+  font-family: 'Frick';
+  src: url('/fonts/frick/Frick-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Frick';
+  src: url('/fonts/frick/Frick-Condensed.otf') format('opentype');
+  font-weight: 400; /* Note: Same weight as Regular, differentiated by font-stretch if used */
+  font-style: normal;
+  font-display: swap;
+  font-stretch: condensed;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Définition des styles de base pour tout le document */
+
+  /* Police par défaut du site */
+  body {
+    /* font-family: 'Marc', ui-sans-serif, system-ui, sans-serif; */
+  }
+}
