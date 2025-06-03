@@ -5,7 +5,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "./", // This makes all assets load relative to the current path
+  base: "./", // Use relative paths for Vercel
   plugins: [react(), tsconfigPaths()],
   resolve: {
     alias: {
