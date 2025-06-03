@@ -5,6 +5,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/Portfolio/', // Add base URL for GitHub Pages
   plugins: [react(), tsconfigPaths()],
   resolve: {
     alias: {
