@@ -5,7 +5,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/Portfolio/', // Add base URL for GitHub Pages
+  base: "./", // This makes all assets load relative to the current path
   plugins: [react(), tsconfigPaths()],
   resolve: {
     alias: {
