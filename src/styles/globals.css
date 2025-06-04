@@ -71,9 +71,221 @@
 
 @layer base {
   /* Définition des styles de base pour tout le document */
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
 
   /* Police par défaut du site */
   body {
-    /* font-family: 'Marc', ui-sans-serif, system-ui, sans-serif; */
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    background-attachment: fixed;
   }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+}
+
+@layer utilities {
+  /* Line clamp utilities */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .line-clamp-4 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+
+  /* Professional card styling - simplified */
+  .glass {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+  }
+
+  /* Grid pattern background */
+  .grid-bg {
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  /* Simplified gradient text - more professional */
+  .gradient-text {
+    color: hsl(var(--primary));
+  }
+}
+
+@layer components {
+  /* Custom animation for project cards */
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 6s ease infinite;
+  }
+
+  /* Floating animation for elements */
+  .floating {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Staggered animations */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+
+  /* Custom animations for enhanced UX */
+  @keyframes toast-enter {
+    from {
+      opacity: 0;
+      transform: translateX(100%) scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
+    }
+  }
+
+  @keyframes ripple {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+
+  .toast-enter {
+    animation: toast-enter 0.3s ease-out;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-ripple {
+    animation: ripple 0.6s linear;
+  }
+
+  /* Enhanced hover effects */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar - simplified */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.6);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
+  }
+
+  /* Focus states for accessibility */
+  .focus-ring:focus {
+    outline: 2px solid #8b5cf6;
+    outline-offset: 2px;
+  }
+
+  /* Loading animations */
+  @keyframes loading-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-loading-spin {
+    animation: loading-spin 1s linear infinite;
+  }
+
+  /* Improved animation delays */
+  .animation-delay-75 { animation-delay: 75ms; }
+  .animation-delay-150 { animation-delay: 150ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-500 { animation-delay: 500ms; }
+  .animation-delay-700 { animation-delay: 700ms; }
 }
