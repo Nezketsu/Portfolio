@@ -36,16 +36,39 @@ export default function Contact() {
     setIsSubmitting(true);
     
     try {
-      // Simulate form submission delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // In a real app, you would send this to your backend
-      console.log('Form submitted:', formData);
-      
-      showToast('success', 'Message sent successfully! I\'ll get back to you soon.');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      // Using Web3Forms to send email directly to greg.caseaux@gmail.com
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || `Portfolio Contact from ${formData.name}`,
+          message: formData.message,
+          to_email: 'greg.caseaux@gmail.com',
+          from_name: formData.name,
+          reply_to: formData.email,
+          // Champs cachés pour Web3Forms
+          _subject: `New Portfolio Message from ${formData.name}`,
+          _template: 'box',
+          _captcha: false
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        showToast('success', 'Message sent successfully! I\'ll get back to you soon.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error(result.message || 'Failed to send message');
+      }
     } catch (error) {
-      showToast('error', 'Failed to send message. Please try again.');
+      console.error('Form submission error:', error);
+      showToast('error', 'Failed to send message. Please try contacting me directly at greg.caseaux@gmail.com');
     } finally {
       setIsSubmitting(false);
     }
