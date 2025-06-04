@@ -13,7 +13,8 @@ export default function Contact() {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
+    honeypot: '' // Hidden field for spam protection
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -27,6 +28,12 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Spam protection: if honeypot field is filled, it's likely a bot
+    if (formData.honeypot) {
+      showToast('error', 'Spam detected. Please try again.');
+      return;
+    }
+    
     // Basic validation
     if (!formData.name || !formData.email || !formData.message) {
       showToast('error', 'Please fill in all required fields');
@@ -36,39 +43,47 @@ export default function Contact() {
     setIsSubmitting(true);
     
     try {
-      // Using Web3Forms to send email directly to greg.caseaux@gmail.com
+      // Simple approach: Use Web3Forms with very basic configuration to avoid spam filters
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY,
+          access_key: '8548bbef-eed7-4f56-a5c2-8af538e5aee9',
           name: formData.name,
           email: formData.email,
-          subject: formData.subject || `Portfolio Contact from ${formData.name}`,
-          message: formData.message,
+          subject: `Contact from ${formData.name}`,
+          message: `Name: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject || 'No subject'}\n\nMessage:\n${formData.message}`,
           to_email: 'greg.caseaux@gmail.com',
-          from_name: formData.name,
-          reply_to: formData.email,
-          // Champs cachés pour Web3Forms
-          _subject: `New Portfolio Message from ${formData.name}`,
-          _template: 'box',
-          _captcha: false
+          _captcha: false,
+          _honey: formData.honeypot
         })
       });
 
       const result = await response.json();
 
-      if (response.ok && result.success) {
+      if (response.ok) {
         showToast('success', 'Message sent successfully! I\'ll get back to you soon.');
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setFormData({ name: '', email: '', subject: '', message: '', honeypot: '' });
       } else {
-        throw new Error(result.message || 'Failed to send message');
+        throw new Error(result.error || 'Failed to send message');
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      showToast('error', 'Failed to send message. Please try contacting me directly at greg.caseaux@gmail.com');
+      
+      // Fallback: Open user's email client with pre-filled message
+      const emailSubject = encodeURIComponent(`Portfolio Contact: ${formData.name}${formData.subject ? ' - ' + formData.subject : ''}`);
+      const emailBody = encodeURIComponent(`Hi Greg,\n\nName: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject || 'General inquiry'}\n\nMessage:\n${formData.message}\n\nSent from your portfolio contact form.`);
+      const mailtoLink = `mailto:greg.caseaux@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+      
+      // Show error with mailto fallback
+      showToast('error', 'Form service unavailable. Opening your email client...');
+      
+      // Small delay then open email client
+      setTimeout(() => {
+        window.location.href = mailtoLink;
+      }, 1500);
     } finally {
       setIsSubmitting(false);
     }
@@ -243,6 +258,17 @@ export default function Contact() {
                   required
                 ></textarea>
               </div>
+              
+              {/* Honeypot field - hidden from users, visible to bots */}
+              <input
+                type="text"
+                name="honeypot"
+                value={formData.honeypot}
+                onChange={handleChange}
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
               
               <div className="text-center">
                 <button
